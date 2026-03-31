@@ -15,6 +15,17 @@ class WrkContainerRack extends WrkRack {
     ]
   }
 
+  async _queryThingHook (req, res) {
+    if (req.method === 'setupPools' && res?.success) {
+      const thg = this.mem.things[req.id]
+      const configId = thg.ctrl.poolConfig
+      if (thg && configId && thg.info.poolConfig !== configId) {
+        thg.info.poolConfig = configId
+        await this.saveThingData(thg)
+      }
+    }
+  }
+
   _start (cb) {
     async.series([
       (next) => { super._start(next) },
@@ -22,7 +33,8 @@ class WrkContainerRack extends WrkRack {
         this._addWhitelistedActions([
           ['switchContainer', 1], // [action, reqVotes]
           ['switchSocket', 1],
-          ['switchCoolingSystem', 1]
+          ['switchCoolingSystem', 1],
+          ['setupPools', 1]
         ])
         next()
       }
