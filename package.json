@@ -1,6 +1,6 @@
 {
   "name": "@tetherto/miningos-tpl-wrk-container",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "MiningOS Template Worker Container",
   "keywords": [
     "tether"
